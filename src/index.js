@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import sky from "./assets/sky.png";
 import ground from "./assets/platform.png";
 import star from "./assets/star.png";
 import bomb from "./assets/bomb.png";
@@ -11,7 +10,8 @@ class MyGame extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("sky", sky);
+        this.load.image("tiles","src/assets/CosmicLilac_Tiles.png");
+        this.load.tilemapTiledJSON('map', "src/assets/mapa1.json");
         this.load.image("ground", ground);
         this.load.image("star", star);
         this.load.image("bomb", bomb);
@@ -21,18 +21,13 @@ class MyGame extends Phaser.Scene {
             frameHeight: 48,
         });
     }
-
     create() {
-        this.add.image(400, 300, "sky");
+        const map = this.make.tilemap({ key: "map", tileWidth: 16, tileHeight: 16});
+        const layer = map.createLayer("Fondo", tileset, 0, 0);
+        const tileset = map.addTilesetImage("CosmicLilac_Tiles","tiles");
 
         const platforms = this.physics.add.staticGroup();
-        //platforms
-        platforms.create(400, 568, "ground").setScale(2).refreshBody();
 
-        platforms.create(600, 400, "ground");
-        platforms.create(50, 250, "ground");
-        platforms.create(750, 220, "ground");
-        platforms.create(390, 120, "ground");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);
@@ -133,8 +128,8 @@ class MyGame extends Phaser.Scene {
 const config = {
     type: Phaser.AUTO,
     parent: "phaser-example",
-    width: 800,
-    height: 600,
+    width: 800 ,
+    height: 604,
     physics: {
         default: "arcade",
         arcade: {
