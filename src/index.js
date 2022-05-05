@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import ground from "./assets/platform.png";
 import star from "./assets/star.png";
 import bomb from "./assets/bomb.png";
 import monkey from "./assets/dude.png";
@@ -12,7 +11,6 @@ class MyGame extends Phaser.Scene {
     preload() {
         this.load.image("tiles","src/assets/CosmicLilac_Tiles.png");
         this.load.tilemapTiledJSON('map', "src/assets/mapa1.json");
-        this.load.image("ground", ground);
         this.load.image("star", star);
         this.load.image("bomb", bomb);
 
@@ -23,8 +21,10 @@ class MyGame extends Phaser.Scene {
     }
     create() {
         const map = this.make.tilemap({ key: "map", tileWidth: 16, tileHeight: 16});
-        const layer = map.createLayer("Fondo", tileset, 0, 0);
         const tileset = map.addTilesetImage("CosmicLilac_Tiles","tiles");
+        map.createStaticLayer('Fondo', tileset);
+        map.createStaticLayer('Plataforma', tileset);
+        map.createStaticLayer('Cosas', tileset);
 
         const platforms = this.physics.add.staticGroup();
 
@@ -33,7 +33,7 @@ class MyGame extends Phaser.Scene {
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.physics.add.collider(this.player, platforms);
-        //animation
+
         this.anims.create({
             key: "turn",
             frames: [{ key: "dude", frame: 4 }],
