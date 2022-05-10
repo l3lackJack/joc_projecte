@@ -108,20 +108,20 @@ class LevelOne extends Phaser.Scene {
     }
 }
 
-const config = {
-    type: Phaser.AUTO,
-    parent: "phaser-example",
-    width: 800 ,
-    height: 604,
-    physics: {
-        default: "arcade",
-        arcade: {
-            gravity: { y: 450 },
-            debug: false,
-        },
-    },
-    scene: LevelOne,
-};
+// const config = {
+//     type: Phaser.AUTO,
+//     parent: "phaser-example",
+//     width: 800 ,
+//     height: 604,
+//     physics: {
+//         default: "arcade",
+//         arcade: {
+//             gravity: { y: 450 },
+//             debug: false,
+//         },
+//     },
+//     scene: LevelOne,
+// };
 
 const game = new Phaser.Game(config);
 export default LevelOne;
