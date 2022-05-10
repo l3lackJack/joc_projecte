@@ -22,17 +22,18 @@ class MyGame extends Phaser.Scene {
     create() {
         const map = this.make.tilemap({ key: "map", tileWidth: 16, tileHeight: 16});
         const tileset = map.addTilesetImage("CosmicLilac_Tiles","tiles");
-        map.createStaticLayer('Fondo', tileset);
-        map.createStaticLayer('Plataforma', tileset);
-        map.createStaticLayer('Cosas', tileset);
+        const fondo = map.createLayer('Fondo', tileset,0,0);
+        const platforma =map.createLayer('Plataforma', tileset,0,0);
+        const cosas = map.createLayer('Cosas', tileset,0,0);
 
         const platforms = this.physics.add.staticGroup();
-
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
-        this.physics.add.collider(this.player, platforms);
+        this.physics.add.collider(this.player, platforma);
+        platforma.setCollisionBetween(54,67);
+
 
         this.anims.create({
             key: "turn",
@@ -57,10 +58,11 @@ class MyGame extends Phaser.Scene {
             repeat: 11,
             setXY: { x: 12, y: 0, stepX: 70 },
         });
+
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         });
-        this.physics.add.collider(stars, platforms);
+        this.physics.add.collider(stars, platforma);
         this.physics.add.overlap(this.player, stars, collect, null, this);
         //bombs
 
@@ -75,14 +77,13 @@ class MyGame extends Phaser.Scene {
             this.player.anims.play("turn");
         }
 
-        //score text
 
         const scoreText = this.add.text(15, 15, "Puntuació: 0", {
             fontSize: "32px",
-            fill: "#000",
+            fill: "#fff",
         });
+
         let score = 0;
-        //stars collision
         function collect(player, star) {
             star.disableBody(true, true);
             score += 1;
@@ -108,6 +109,7 @@ class MyGame extends Phaser.Scene {
 
     update() {
         const cursors = this.input.keyboard.createCursorKeys();
+
         if (cursors.left.isDown) {
             this.player.setVelocityX(-160);
             this.player.anims.play("left", true);
@@ -119,8 +121,8 @@ class MyGame extends Phaser.Scene {
             this.player.anims.play("turn");
         }
 
-        if (cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-420);
+        if (cursors.up.isDown) {
+            this.player.setVelocityY(-200);
         }
     }
 }
