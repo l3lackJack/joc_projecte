@@ -123,6 +123,5 @@ class LevelOne extends Phaser.Scene {
 //     scene: LevelOne,
 // };
 
-const game = new Phaser.Game(config);
 export default LevelOne;
 
